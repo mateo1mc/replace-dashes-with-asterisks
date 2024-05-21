@@ -1,4 +1,5 @@
 from docx import Document
+import os
 
 def replace_dashes_with_asterisks(docx_file):
     document = Document(docx_file)
@@ -29,5 +30,15 @@ def replace_dashes_with_asterisks(docx_file):
     document.save(modified_file)
     print(f"Modified document saved as: {modified_file}")
 
-# Replace dashes with asterisks in the document
-replace_dashes_with_asterisks('your_document.docx')
+def process_all_docx_in_folder(folder_path):
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.docx') and not filename.endswith('_modified.docx'):
+            file_path = os.path.join(folder_path, filename)
+            print(f"Processing file: {file_path}")
+            replace_dashes_with_asterisks(file_path)
+
+# Get the folder path of the current script
+folder_path = os.path.dirname(os.path.abspath(__file__))
+
+# Process all .docx files in the folder
+process_all_docx_in_folder(folder_path)
